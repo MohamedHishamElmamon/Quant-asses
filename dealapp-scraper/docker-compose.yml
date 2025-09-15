@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  scraper:
+    build: .
+    container_name: dealapp-scraper
+    environment:
+      - HEADLESS=true
+      - TARGET_PROPERTIES=500
+      - MAX_TOKENS=20
+      - OUTPUT_DIR=/app/data
+      - LOG_DIR=/app/logs
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    # Add shared memory size for Chrome
+    shm_size: '2gb'
+    # Security options for Chrome
+    security_opt:
+      - seccomp=unconfined
+    restart: unless-stopped
